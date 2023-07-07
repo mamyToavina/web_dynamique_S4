@@ -60,6 +60,45 @@ public class Emp {
         
         return mv;
     }
+
+    @UrlMapping(url="formulaire.do")
+    public ModelView formulaire(){
+        ModelView mv = new ModelView();
+        mv.setView("formulaire.jsp");
+        return mv;
+    }
+
+    @UrlMapping(url="save.do")
+    public ModelView save(){
+        ModelView mv = new ModelView();
+
+        // System.out.println("nom 1:"+this.getNom());
+        mv.addItem("nom",this.getName());
+        mv.addItem("prenom",this.getFirstname());
+        
+        mv.setView("/save.jsp");
+
+        return mv;
+    }
+    
+    @UrlMapping(url = "getEmp.do")
+    public ModelView getEmp(String nom){
+        ModelView mv = new ModelView();
+        Vector<Emp> emp = new Vector<>();
+        emp.add(new Emp(1,"Rakoto","malala"));    
+        emp.add(new Emp(2,"Rabe","Haja"));
+        emp.add(new Emp(3,"Rasoa","Ngita"));
+
+        mv.setView("/fiche.jsp");
+        for (Emp emp2 : emp) {
+            if(nom.equalsIgnoreCase(emp2.getName())){
+                mv.addItem("emp", emp2);
+            }
+        }
+        
+        
+        return mv;
+    }
     public Emp() {
     }
 }

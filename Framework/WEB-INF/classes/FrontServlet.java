@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import etu1797.framework.ModelView;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import etu1797.framework.Mapping;
+import etu1797.framework.ModelView;
 import etu1797.framework.UrlMapping;
 import etu1797.framework.Utilitaire;
 import java.lang.reflect.Field;
@@ -71,6 +71,7 @@ public class FrontServlet extends HttpServlet {
 
         Class<?> clazz = Class.forName(mapping.getClassName());
         Object object = clazz.getDeclaredConstructor().newInstance();
+        sendData(request, object);
 
         ModelView modelView = (ModelView) clazz.getMethod(mapping.getMethod()).invoke(object);
 
@@ -87,11 +88,25 @@ public class FrontServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    //data -> request
     public void addData(HttpServletRequest req,ModelView mv){
         for (Map.Entry<String,Object> obj: mv.getData().entrySet()) {
             req.setAttribute(obj.getKey(), obj.getValue());
         }
         
+    }
+
+    public void sendData(HttpServletRequest request,Object obj) throws Exception{
+            Field[] fields = obj.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            String value = request.getParameter(field.getName());
+            if (value != null) {
+                field.setAccessible(true);
+                field.set(obj, field.getType().cast(value));
+            }
+        }
+
     }
 
 
