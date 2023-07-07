@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import etu1797.framework.ModelView;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -65,11 +66,16 @@ public class FrontServlet extends HttpServlet {
         Mapping mapping = mappingUrls.get(mappedUrl);
 
         if (mapping == null) {
-            throw new Exception("URL Not Found");
+            throw new Exception("Not Found");
         }
 
         Class<?> clazz = Class.forName(mapping.getClassName());
         Object object = clazz.getDeclaredConstructor().newInstance();
+
+        ModelView modelView = (ModelView) clazz.getMethod(mapping.getMethod()).invoke(object);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(modelView.getView());
+        dispatcher.forward(request, response);
     }
 
 

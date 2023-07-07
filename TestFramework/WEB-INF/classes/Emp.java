@@ -1,5 +1,8 @@
 package model;
-import etu1797.framework.UrlMapping;;
+import etu1797.framework.ModelView;
+import etu1797.framework.UrlMapping;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class Emp {
     int id;
@@ -25,7 +28,6 @@ public class Emp {
 
     @UrlMapping(url = "get-name.do")
     public String getName() {
-        System.out.println(name);
         return name;
     }
 
@@ -43,6 +45,12 @@ public class Emp {
         this.name = name;
     }
     
+    @UrlMapping(url="emp-all.do")
+    public ModelView findAll(){
+        ModelView mv = new ModelView();
+        mv.setView("/emp-list.jsp");
+        return mv;
+    }
     public Emp() {
     }
 }
