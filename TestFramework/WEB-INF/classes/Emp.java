@@ -1,12 +1,5 @@
 package model;
-import etu1797.framework.UrlMapping;
-import java.util.HashMap;
-import java.util.Vector;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.ServletException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import etu1797.framework.UrlMapping;;
 
 public class Emp {
     int id;
@@ -32,6 +25,7 @@ public class Emp {
 
     @UrlMapping(url = "get-name.do")
     public String getName() {
+        System.out.println(name);
         return name;
     }
 
@@ -49,17 +43,6 @@ public class Emp {
         this.name = name;
     }
     
-   
-    
-    public String test() {
-        return "mety anie io";
+    public Emp() {
     }
-
-    @UrlMapping(url="page_test.do")
-    public void andrana(){
-        System.out.println("mety");
-    }
-public Emp() {}
-    
 }
-
